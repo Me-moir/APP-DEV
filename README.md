@@ -1,6 +1,23 @@
-# TechNova - Education Management System
+# TechNova Solutions and Learning Center (TSLC) - Student Information System
 
-A comprehensive web-based education management system with dedicated portals for administrators, staff, and students.
+## About TSLC
+
+TechNova Solutions and Learning Center (TSLC) is a private review center located in Quezon City, Philippines, providing academic review programs and preparatory training for students preparing for licensure examinations, entrance tests, and professional certifications. Established in 2018 by a group of educators and IT professionals, TSLC delivers structured review sessions, mock examinations, and guided learning programs across various disciplines including Information Technology, Education, and Business.
+
+## The Challenge
+
+As TSLC experienced steady growth in student enrollees and review programs offered each term, the organization continued to operate using manual and semi-digital processes. Without a centralized Student Information System, student-related data were recorded through paper-based forms and stored across multiple spreadsheet files. This fragmented approach created significant challenges:
+
+- **Data Inconsistency**: Information scattered across multiple sources
+- **Accessibility Issues**: Difficulty retrieving student information quickly
+- **Operational Inefficiencies**: Delays in encoding and managing records
+- **Enrollment Tracking**: Challenges in monitoring enrollment status
+- **Progress Monitoring**: Inconsistencies in tracking student progress and attendance
+- **Department Coordination**: Lack of unified system hindering admin, instructor, and staff collaboration
+
+## The Solution
+
+This comprehensive Student Information System centralizes all operations and provides dedicated portals for administrators, staff, and students, enabling seamless data management and improved organizational efficiency.
 
 ## Getting Started
 
