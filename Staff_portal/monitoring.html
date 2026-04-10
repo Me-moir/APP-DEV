@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   <meta charset="UTF-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <title>Staff Student Monitoring</title>
+   <script src="https://cdn.tailwindcss.com"></script>
+   <link rel="icon" type="image/png" href="../Public/Logo-main.png">
+   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+   <style>
+       .glass-panel {
+           background: rgba(255, 255, 255, 0.03);
+           backdrop-filter: blur(10px);
+       }
+       #sidebar-toggle { display: none; }
+       #sidebar-toggle:target ~ #mobile-sidebar { transform: translateX(0) !important; }
+       #sidebar-toggle:target ~ #sidebar-overlay { opacity: 1 !important; pointer-events: auto !important; }
+       body:has(#sidebar-toggle:target) { overflow: hidden; }
+       #mobile-sidebar { transition: transform 0.3s ease; }
+       #sidebar-overlay { transition: opacity 0.3s ease; }
+   </style>
+</head>
+<body class="bg-[#2C3544] min-h-screen text-white font-sans overflow-x-hidden">
+  
+  <a id="sidebar-toggle" href="#sidebar-toggle" style="display:none;"></a>
+
+  
+  <aside id="mobile-sidebar" class="fixed top-0 left-0 h-screen w-64 bg-[#080808] z-50 flex flex-col transform -translate-x-full md:hidden border-r border-[#F6AD55]/10">
+     <div class="p-4 border-b border-[#F6AD55]/20 flex items-center justify-between">
+        <div class="flex items-center gap-3">
+           <img src="../Public/Logo-main.png" alt="TN" class="h-10 w-10 rounded-full border border-[#F6AD55]">
+           <div>
+              <div class="text-lg font-bold text-[#F6AD55]">TechNova</div>
+              <div class="text-[9px] text-[#8A95A5] uppercase tracking-widest">Staff Center</div>
+           </div>
+        </div>
+        <a href="#" class="text-[#8A95A5] text-2xl font-light">&times;</a>
+     </div>
+     <nav class="flex-1 pt-2 overflow-y-auto">
+        <a href="index.html" class="block px-4 py-3 text-[#8A95A5] border-r-4 border-transparent hover:border-[#F6AD55] hover:text-gray-200 transition-all">
+           <i class="bi bi-columns-gap mr-2"></i>Dashboard
+        </a>
+        <a href="schedule.html" class="block px-4 py-3 text-[#8A95A5] border-r-4 border-transparent hover:border-[#F6AD55] hover:text-gray-200 transition-all">
+           <i class="bi bi-calendar-event mr-2"></i>Review Schedule
+        </a>
+        <a href="#" class="block px-4 py-3 text-[#FFFFFF] font-bold border-r-4 border-[#F6AD55]">
+           <i class="bi bi-people mr-2"></i>Student Monitoring
+        </a>
+        <a href="records.html" class="block px-4 py-3 text-[#8A95A5] border-r-4 border-transparent hover:border-[#F6AD55] hover:text-gray-200 transition-all">
+           <i class="bi bi-file-earmark mr-2"></i>Records Management
+        </a>
+     </nav>
+     <div class="p-4 border-t border-[#F6AD55]/20">
+        <a href="../../Public/index.html" class="block w-full bg-[#f4a236] text-[#080808] rounded px-4 py-2 text-center font-medium text-xs tracking-widest uppercase hover:bg-[#e09222] transition-all flex items-center justify-center gap-2">
+           Logout <i class="bi bi-box-arrow-right"></i>
+        </a>
+     </div>
+  </aside>
+
+  
+  <div id="sidebar-overlay" class="fixed inset-0 bg-black/60 z-40 md:hidden opacity-0 pointer-events-none transition-opacity"></div>
+
+  <div class="relative min-h-screen">
+      
+      <div class="md:hidden fixed top-0 left-0 right-0 h-16 bg-[#080808] border-b border-[#F6AD55]/20 flex items-center justify-between px-4 z-30">
+           <a href="#sidebar-toggle" class="flex items-center justify-center w-10 h-10 rounded-full bg-white/10 border border-white/20 text-white hover:bg-[#F6AD55] hover:text-black transition-all">
+               <i class="bi bi-list text-lg"></i>
+           </a>
+           <div class="flex items-center gap-2">
+               <img src="../Public/Logo-main.png" alt="TN" class="h-8 w-8 rounded-full border border-[#F6AD55]">
+               <div>
+                  <div class="text-xs font-bold text-[#F6AD55]">TechNova</div>
+                  <div class="text-[7px] text-[#8A95A5] uppercase tracking-widest">Review</div>
+               </div>
+           </div>
+           <div class="w-10"></div>
+      </div>
+      
+      <div class="md:col-span-1 bg-[#080808] rounded-lg md:fixed md:left-0 md:top-0 md:w-1/5 md:h-screen flex flex-col h-fit hidden md:flex">
+           <nav class="flex flex-col h-full">
+               <div class="p-2 flex-1">
+                   <div class="flex justify-center mt-5">
+                       <img src="../Public/Logo-main.png" alt="TN" class="h-20 w-20 rounded-full object-cover border-2 border-[#F6AD55] shadow-sm">
+                   </div>
+                   <div class="text-center mt-4 mb-9">
+                       <span class="text-3xl font-bold tracking-tight text-[#F6AD55]">TechNova</span>
+                       <p class="text-[10px] font-bold text-[#FFFFFF] uppercase tracking-[0.2em]">Staff Center</p>
+                   </div>
+
+
+
+
+
+                   <ul class="hidden md:block mb-5">
+                       <li class="text-white/70">
+                           <a href="index.html" target="_self" class="block px-2 py-1 flex justify-start border-r-4 border-[#858585] hover:text-gray-300">
+                               <i class="bi bi-columns-gap w-5 mr-2 text-lg"></i>
+                               <span>Dashboard</span>
+                           </a>
+                       </li>
+          
+                       <li class="mt-4 text-white/70">
+                           <a href="schedule.html" class="block px-2 py-1 flex justify-start border-r-4 border-[#858585] hover:text-gray-300">
+                              <i class="bi bi-calendar-event w-5 mr-2 text-lg"></i>
+                               <span>Review Schedule</span>
+                           </a>
+                       </li>
+      
+                       <li class="font-bold mt-4 text-white">
+                           <a href="#" target="_self" class="block px-4 py-5 flex justify-start border-r-4 border-[#F6AD55] hover:text-gray-300">
+                               <i class="bi bi-people w-5 mr-2 text-lg"></i>
+                               <span>Student Monitoring</span>
+                           </a>
+                       </li>
+      
+                       <li class=" mt-4 text-white/70">
+                           <a href="records.html" target="_self" class="block px-2 py-1 flex justify-start border-r-4 border-[#858585] hover:text-gray-300">
+                               <i class="bi bi-file-earmark w-5 mr-2 text-lg"></i>
+                               <span>Records Management</span>
+                           </a>
+                       </li>
+
+                   </ul>
+               </div>
+               <div class="md:p-4 p-2 mt-auto">
+                   <a href="../../Public/index.html" class="block w-full bg-[#f4a236] text-[#080808] rounded px-6 py-3 text-center font-medium text-sm tracking-widest uppercase hover:bg-[#e09222] transition-all flex items-center justify-center gap-2">
+                       Logout
+                       <i class="bi bi-box-arrow-right"></i>
+                   </a>
+               </div>
+           </nav>
+       </div>
+
+
+       <div class="w-full md:ml-[20%] ml-1 mt-16 md:mt-1 px-2 md:px-7 md:w-[calc(100%-20%)] box-border">
+           <div class="py-4">
+               <h2 class="text-xs uppercase tracking-[0.3em] text-[#F6AD55] font-black mb-2 md:mt-7">STAFF DASHBOARD</h2>
+               <h1 class="text-3xl md:text-4xl font-bold tracking-tight text-[#FFFFFF]">Student Monitoring</h1>
+           </div>
+
+
+           <hr class="mt-1 mb-6 border-white/10">
+
+
+           <div class="grid grid-cols-1 xl:grid-cols-3 gap-10">
+
+
+               <div class="space-y-7">
+                   <div class="glass-panel p-5 rounded-2xl shadow-2xl ring-1 ring-white/10">
+                       <p class="text-slate-300 font-bold text-sm">TOTAL STUDENTS ENROLLED</p>
+                       <hr class="border-white/10 mt-2 mb-4">
+                       <div class="grid grid-cols-2 items-center">
+                           <span class="text-white tracking-tight font-bold text-4xl">754</span>
+                           <div class="text-gray-400 text-xs space-y-1">
+                               <p>542 – Fully Paid</p>
+                               <p>172 - Partial</p>
+                               <a href="#overdue" class="text-red-400/80 underline">30 - Overdue</a>
+                           </div>
+                       </div>
+                   </div>
+
+
+                   <div class="glass-panel p-5 rounded-2xl shadow-2xl ring-1 ring-white/10">
+                       <p class="text-slate-300 font-bold text-sm">MOCK EXAM RESULTS</p>
+                       <hr class="border-white/10 mt-2 mb-4">
+                       <div class="grid grid-cols-2 gap-3">
+                           <ul class="text-white font-semibold text-right space-y-1 text-sm">
+                               <li>IT</li><li>LET</li><li>CSE</li><li>CPA</li><li>Real Estate</li>
+                           </ul>
+                           <ul class="text-green-300/60 space-y-1 text-sm">
+                               <li>89.3%</li><li>87.5%</li><li>92%</li><li>86.2%</li><li>95.2%</li>
+                           </ul>
+                       </div>
+                   </div>
+
+
+                   <div class="glass-panel p-5 rounded-2xl shadow-2xl ring-1 ring-white/10">
+                       <p class="text-slate-300 font-bold text-sm">PENDING REQUESTS</p>
+                       <hr class="border-white/10 mt-2 mb-4">
+                       <div class="text-center mb-4">
+                           <span class="text-orange-300 text-lg"><span class="font-bold">32</span> Pending Requests</span>
+                       </div>
+                       <button class="w-full bg-[#f4a236] text-white rounded-md py-2 font-bold hover:bg-[#e0912a] transition-colors">
+                           <a href="#requests">See Requests</a>
+                       </button>
+                   </div>
+               </div>
+
+
+               <div class="xl:col-span-2">
+                   <div class="bg-[#333f4f] rounded-2xl shadow-xl overflow-hidden border border-white/5">
+                       <div class="px-6 py-5 border-b border-white/10 bg-white/5">
+                           <h3 class="text-sm font-bold text-white uppercase tracking-widest">Student Monitoring Directory</h3>
+                           <p class="text-[10px] text-gray-400 mt-1 uppercase tracking-tighter font-semibold">Master List & Status Tracker</p>
+                       </div>
+
+
+                       <div class="overflow-x-auto">
+                           <table class="w-full text-left border-collapse min-w-[600px]">
+                               <thead>
+                                   <tr class="text-[10px] uppercase text-gray-400 font-black tracking-widest border-b border-white/5">
+                                       <th class="px-6 py-4">Student Name & Program</th>
+                                       <th class="px-6 py-4">Status</th>
+                                       <th class="px-6 py-4 text-center">Quick Contact</th>
+                                   </tr>
+                               </thead>
+                               <tbody class="divide-y divide-white/5">
+                                   <tr class="hover:bg-white/5 transition-colors group">
+                                       <td class="px-6 py-4">
+                                           <div class="text-sm font-bold text-white uppercase tracking-tight">ABAD, Maria Clara</div>
+                                           <div class="text-[10px] text-[#F6AD55] font-semibold italic">Information Technology</div>
+                                       </td>
+                                       <td class="px-6 py-4">
+                                           <span class="px-3 py-1 rounded-full text-[10px] font-bold uppercase bg-blue-500/20 text-blue-400 border border-blue-500/30">Enrolled</span>
+                                       </td>
+                                       <td class="px-6 py-4">
+                                           <div class="flex justify-center gap-2">
+                                               <button class="p-2 bg-white/5 rounded-lg text-gray-400 hover:text-[#F6AD55] border border-transparent hover:border-white/10 transition-all">
+                                                   <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/></svg>
+                                               </button>
+                                               <button class="p-2 bg-white/5 rounded-lg text-gray-400 hover:text-blue-400 border border-transparent hover:border-white/10 transition-all">
+                                                   <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"/></svg>
+                                               </button>
+                                           </div>
+                                       </td>
+                                   </tr>
+                                   <tr class="hover:bg-white/5 transition-colors group">
+                       <td class="px-6 py-4">
+                           <div class="text-sm font-bold text-white uppercase tracking-tight">ABALOS, Jerome Marie</div>
+                           <div class="text-[10px] text-[#F6AD55] font-semibold italic">Licensure Examination for Teachers</div>
+                       </td>
+                       <td class="px-6 py-4">
+                           <span class="px-3 py-1 rounded-full text-[10px] font-bold uppercase bg-yellow-500/20 text-yellow-400 border border-yellow-500/30">Partial</span>
+                       </td>
+                       <td class="px-6 py-4">
+                           <div class="flex justify-center gap-2">
+                               <button class="p-2 bg-white/5 rounded-lg text-gray-400 hover:text-[#F6AD55] hover:bg-white/10 transition-all border border-transparent hover:border-white/10">
+                                   <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/></svg>
+                               </button>
+                               <button class="p-2 bg-white/5 rounded-lg text-gray-400 hover:text-blue-400 hover:bg-white/10 transition-all border border-transparent hover:border-white/10">
+                                   <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"/></svg>
+                               </button>
+                           </div>
+                       </td>
+                   </tr>
+
+
+                   <tr class="hover:bg-white/5 transition-colors group">
+                       <td class="px-6 py-4">
+                           <div class="text-sm font-bold text-white uppercase tracking-tight">ARCEO, Dominic Roui</div>
+                           <div class="text-[10px] text-[#F6AD55] font-semibold italic">Civil Service Exam</div>
+                       </td>
+                       <td class="px-6 py-4">
+                           <span class="px-3 py-1 rounded-full text-[10px] font-bold uppercase bg-blue-500/20 text-blue-400 border border-blue-500/30">Enrolled</span>
+                       </td>
+                       <td class="px-6 py-4">
+                           <div class="flex justify-center gap-2">
+                               <button class="p-2 bg-white/5 rounded-lg text-gray-400 hover:text-[#F6AD55] hover:bg-white/10 transition-all border border-transparent hover:border-white/10">
+                                   <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/></svg>
+                               </button>
+                               <button class="p-2 bg-white/5 rounded-lg text-gray-400 hover:text-blue-400 hover:bg-white/10 transition-all border border-transparent hover:border-white/10">
+                                   <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"/></svg>
+                               </button>
+                           </div>
+                       </td>
+                   </tr>
+
+
+                    <tr class="hover:bg-white/5 transition-colors group">
+                       <td class="px-6 py-4">
+                           <div class="text-sm font-bold text-white uppercase tracking-tight">ABARRIENTOS, Rafael Gabriel</div>
+                           <div class="text-[10px] text-[#F6AD55] font-semibold italic">Civil Service Exam</div>
+                       </td>
+                       <td class="px-6 py-4">
+                           <span class="px-3 py-1 rounded-full text-[10px] font-bold uppercase bg-red-500/20 text-red-400 border border-red-500/30">Overdue</span>
+                       </td>
+                       <td class="px-6 py-4">
+                           <div class="flex justify-center gap-2">
+                               <button class="p-2 bg-white/5 rounded-lg text-gray-400 hover:text-[#F6AD55] hover:bg-white/10 transition-all border border-transparent hover:border-white/10">
+                                   <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/></svg>
+                               </button>
+                               <button class="p-2 bg-white/5 rounded-lg text-gray-400 hover:text-blue-400 hover:bg-white/10 transition-all border border-transparent hover:border-white/10">
+                                   <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"/></svg>
+                               </button>
+                           </div>
+                       </td>
+                   </tr>
+                   <tr class="hover:bg-white/5 transition-colors group">
+                       <td class="px-6 py-4">
+                           <div class="text-sm font-bold text-white uppercase tracking-tight">ALFONSO, Katrina Beatriix</div>
+                           <div class="text-[10px] text-[#F6AD55] font-semibold italic">Real Estate Brokerage Review</div>
+                       </td>
+                       <td class="px-6 py-4">
+                            <span class="px-3 py-1 rounded-full text-[10px] font-bold uppercase bg-blue-500/20 text-blue-400 border border-blue-500/30">Enrolled</span>
+                       </td>
+                       <td class="px-6 py-4">
+                           <div class="flex justify-center gap-2">
+                               <button class="p-2 bg-white/5 rounded-lg text-gray-400 hover:bg-white/10 transition-all"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/></svg></button>
+                               <button class="p-2 bg-white/5 rounded-lg text-gray-400 hover:bg-white/10 transition-all"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"/></svg></button>
+                           </div>
+                       </td>
+                   </tr>
+                                   </tbody>
+                           </table>
+                       </div>
+                   </div>
+
+
+                   <div class="px-6 py-4 border-t border-white/5 bg-white/5 flex flex-col sm:flex-row items-center justify-between gap-4 rounded-xl mt-4">
+                       <div class="text-[10px] text-gray-400 uppercase tracking-widest font-bold text-center sm:text-left">
+                           Showing <span class="text-white">5</span> of <span class="text-white">754</span> Students
+                       </div>
+                       <nav class="flex items-center -space-x-px">
+                           <button class="px-3 py-2 rounded-l-lg border border-white/10 text-gray-400 hover:bg-white/5">
+                               <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" /></svg>
+                           </button>
+                           <button class="px-4 py-2 text-xs font-bold text-black bg-[#F6AD55]">1</button>
+                           <button class="px-4 py-2 text-xs font-bold text-white border border-white/10">2</button>
+                           <button class="px-4 py-2 text-xs font-bold text-white border border-white/10 hover:bg-white/5">..</button>
+                   <button class="px-4 py-2 text-xs font-bold text-white border border-white/10 hover:bg-white/5">76</button>
+                           <button class="px-3 py-2 rounded-r-lg border border-white/10 text-gray-400">
+                               <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" /></svg>
+                           </button>
+                       </nav>
+                   </div>
+               </div>
+           </div>
+          
+           <div id="overdue" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm opacity-0 pointer-events-none target:opacity-100 target:pointer-events-auto transition-opacity duration-300">
+  
+   <div class="bg-[#333f4f] w-full max-w-2xl rounded-2xl shadow-2xl border border-[#F6AD55]/30 overflow-hidden animate-in fade-in zoom-in duration-200">
+      
+       <div class="px-6 py-4 bg-[#F6AD55]/10 border-b border-white/10 flex justify-between items-center">
+           <div class="flex items-center gap-3">
+               <div class="p-2 bg-[#F6AD55] rounded-lg">
+                   <svg class="w-5 h-5 text-black" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg>
+               </div>
+               <div>
+                   <h3 class="text-white font-bold uppercase tracking-widest text-sm">Overdue Account Alert</h3>
+                   <p class="text-[10px] text-[#F6AD55] font-bold uppercase tracking-tighter">Immediate Action Required</p>
+               </div>
+           </div>
+           <button class="text-gray-400 hover:text-white transition-colors">
+               <a href="#" class="text-gray-400 hover:text-gray-600">
+               <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+           </a>
+           </button>
+       </div>
+
+
+       <div class="p-6">
+           <div class="bg-black/20 rounded-xl overflow-hidden border border-white/5 mb-6">
+               <table class="w-full text-left text-xs">
+                   <thead>
+                       <tr class="bg-white/5 text-gray-400 uppercase text-[9px] font-black tracking-widest">
+                           <th class="px-4 py-3">Student Name</th>
+                           <th class="px-4 py-3">Balance</th>
+                           <th class="px-4 py-3">Last Contact</th>
+                           <th class="px-4 py-3">Status</th>
+                       </tr>
+                   </thead>
+                   <tbody class="divide-y divide-white/5 text-white">
+                       <tr>
+                           <td class="px-4 py-3 font-bold uppercase">Pascual, Arnel G.</td>
+                           <td class="px-4 py-3 text-red-400 font-mono font-bold">₱4,500.00</td>
+                           <td class="px-4 py-3 text-gray-400">Mar 15, 2026</td>
+                           <td class="px-4 py-3"><span class="text-[9px] bg-orange-500/20 text-orange-400 px-2 py-0.5 rounded border border-orange-500/20 font-bold">2ND NOTICE</span></td>
+                       </tr>
+                       <tr>
+                           <td class="px-4 py-3 font-bold uppercase">De La Cruz, Sofia M.</td>
+                           <td class="px-4 py-3 text-red-400 font-mono font-bold">₱2,250.00</td>
+                           <td class="px-4 py-3 text-gray-400">Apr 02, 2026</td>
+                           <td class="px-4 py-3"><span class="text-[9px] bg-blue-500/20 text-blue-400 px-2 py-0.5 rounded border border-blue-500/20 font-bold">FOLLOW-UP</span></td>
+                       </tr>
+                       <tr>
+                           <td class="px-4 py-3 font-bold uppercase">Villanueva, Mateo S.</td>
+                           <td class="px-4 py-3 text-red-400 font-mono font-bold">₱7,800.00</td>
+                           <td class="px-4 py-3 text-gray-400">Feb 28, 2026</td>
+                           <td class="px-4 py-3"><span class="text-[9px] bg-red-500/20 text-red-400 px-2 py-0.5 rounded border border-red-500/20 font-bold">FINAL WARNING</span></td>
+                       </tr>
+                       <tr>
+                           <td class="px-4 py-3 font-bold uppercase">Santos, Bianca Louise</td>
+                           <td class="px-4 py-3 text-red-400 font-mono font-bold">₱1,200.00</td>
+                           <td class="px-4 py-3 text-gray-400">Apr 05, 2026</td>
+                           <td class="px-4 py-3"><span class="text-[9px] bg-green-500/20 text-green-400 px-2 py-0.5 rounded border border-green-500/20 font-bold">PROMISED PAY</span></td>
+                       </tr>
+                   </tbody>
+               </table>
+           </div>
+
+
+           <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+               <div>
+                   <label class="block text-[10px] font-bold text-gray-400 uppercase mb-2 tracking-widest">Update Log Status</label>
+                   <select class="w-full bg-[#1a1a1a] border border-white/10 rounded-lg p-2.5 text-xs text-white outline-none focus:ring-1 focus:ring-[#F6AD55]">
+                       <option>Select Action Taken...</option>
+                       <option>Called - No Answer</option>
+                       <option>Sent SMS Notification</option>
+                       <option>Student Promised to Pay</option>
+                       <option>Requested Extension</option>
+                   </select>
+               </div>
+               <div>
+                   <label class="block text-[10px] font-bold text-gray-400 uppercase mb-2 tracking-widest">Quick Remark</label>
+                   <input type="text" placeholder="e.g. Will pay by Friday" class="w-full bg-[#1a1a1a] border border-white/10 rounded-lg p-2.5 text-xs text-white outline-none focus:ring-1 focus:ring-[#F6AD55]">
+               </div>
+           </div>
+       </div>
+
+
+       <div class="px-6 py-4 bg-black/20 border-t border-white/10 flex flex-col sm:flex-row gap-3">
+           <button class="flex-1 bg-white/5 hover:bg-white/10 text-white text-xs font-bold py-3 rounded-xl transition-all border border-white/10 uppercase tracking-widest">
+               Print Notice
+           </button>
+           <button class="flex-1 bg-[#F6AD55] hover:bg-[#e0912a] text-black text-xs font-bold py-3 rounded transition-all uppercase tracking-widest">
+               Save & Update Records
+           </button>
+       </div>
+   </div>
+</div>
+
+
+<div id="requests" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm opacity-0 pointer-events-none target:opacity-100 target:pointer-events-auto transition-opacity duration-300">
+  
+   <div class="bg-[#333f4f] w-full max-w-3xl rounded-2xl shadow-2xl border border-[#F6AD55]/30 overflow-hidden animate-in fade-in zoom-in duration-200">
+      
+       <div class="px-6 py-4 bg-[#F6AD55]/10 border-b border-white/10 flex justify-between items-center">
+           <div class="flex items-center gap-3">
+               <div class="p-2 bg-[#F6AD55] rounded-lg text-black">
+                   <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z"/></svg>
+               </div>
+               <div>
+                   <h3 class="text-white font-bold uppercase tracking-widest text-sm">Admission Requests</h3>
+                   <p class="text-[10px] text-[#F6AD55] font-bold uppercase tracking-tighter">New Applications to Review</p>
+               </div>
+           </div>
+           <button class="text-gray-400 hover:text-white">
+               <a href="#" class="text-gray-400 hover:text-gray-600">
+               <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+           </a>
+           </button>
+       </div>
+
+
+       <div class="p-6">
+           <div class="space-y-3">
+               <div class="flex flex-col sm:flex-row items-center justify-between p-4 bg-white/5 border border-white/10 rounded-xl hover:bg-white/10 transition-all">
+                   <div>
+                       <h4 class="text-white font-bold uppercase tracking-tight">Bantug, Julianne R.</h4>
+                       <p class="text-[10px] text-[#F6AD55] font-bold uppercase italic">Information Technology Review</p>
+                       <p class="text-[10px] text-gray-500 mt-1 uppercase">Applied: April 08, 2026</p>
+                   </div>
+                   <div class="flex gap-2 mt-4 sm:mt-0">
+                       <a href="mailto:julianne.b@email.com?subject=TechNova%20Admission%20Update" class="p-2 bg-blue-500/20 text-blue-400 rounded-lg hover:bg-blue-500 hover:text-white transition-all border border-blue-500/30 flex items-center gap-2 text-[10px] font-bold uppercase px-4">
+                           <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+                           Email
+                       </a>
+                       <button class="p-2 bg-white/10 text-white rounded-lg hover:bg-[#F6AD55] hover:text-black transition-all border border-white/10 text-[10px] font-bold uppercase px-4">
+                           Approve
+                       </button>
+                   </div>
+               </div>
+
+
+               <div class="flex flex-col sm:flex-row items-center justify-between p-4 bg-white/5 border border-white/10 rounded-xl hover:bg-white/10 transition-all">
+                   <div>
+                       <h4 class="text-white font-bold uppercase tracking-tight">Cortez, Rafael Luis</h4>
+                       <p class="text-[10px] text-[#F6AD55] font-bold uppercase italic">CPA Board Exam Review</p>
+                       <p class="text-[10px] text-gray-500 mt-1 uppercase">Applied: April 09, 2026</p>
+                   </div>
+                   <div class="flex gap-2 mt-4 sm:mt-0">
+                       <a href="mailto:raf.cortez99@email.com" class="p-2 bg-blue-500/20 text-blue-400 rounded-lg hover:bg-blue-500 hover:text-white transition-all border border-blue-500/30 flex items-center gap-2 text-[10px] font-bold uppercase px-4">
+                           <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+                           Email
+                       </a>
+                       <button class="p-2 bg-white/10 text-white rounded-lg hover:bg-[#F6AD55] hover:text-black transition-all border border-white/10 text-[10px] font-bold uppercase px-4">
+                           Approve
+                       </button>
+                   </div>
+               </div>
+
+
+               <div class="p-4 text-center">
+                   <button class="text-[10px] font-bold text-gray-400 uppercase tracking-widest hover:text-white transition-all">
+                       View 3 More Pending Requests ↓
+                   </button>
+               </div>
+           </div>
+       </div>
+
+
+       <div class="px-6 py-4 bg-black/20 border-t border-white/10 flex justify-between items-center">
+           <span class="text-[10px] text-gray-500 font-bold uppercase tracking-widest">5 Unprocessed Applications</span>
+           <button class="bg-[#F6AD55] text-black text-[10px] font-black py-2 px-6 rounded-lg uppercase tracking-widest hover:bg-[#e0912a] transition-all">
+               Export List to PDF
+           </button>
+       </div>
+   </div>
+</div>
+       </div>
+   </div>
+</body>
+</html>

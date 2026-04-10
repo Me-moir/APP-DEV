@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Academic Grades - TechNova</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+    <style>
+        :root {
+            --gold: #f4a236;
+            --ink: #080808;
+            --slate: #2C3544;
+            --mist: #8A95A5;
+            --snow: #F1F5F9;
+        }
+
+        #sidebar-toggle { display: none; }
+        #sidebar-toggle:target ~ #mobile-sidebar { transform: translateX(0) !important; }
+        #sidebar-toggle:target ~ #sidebar-overlay { opacity: 1 !important; pointer-events: auto !important; }
+        body:has(#sidebar-toggle:target) { overflow: hidden; }
+        #mobile-sidebar { transition: transform 0.3s ease; }
+        #sidebar-overlay { transition: opacity 0.3s ease; }
+
+        nav {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: rgba(8,8,8,0.92);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(244,162,54,0.12);
+        }
+
+        .nav-inner {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 32px;
+            height: 72px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .nav-links a {
+            font-size: 12px;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            color: var(--mist);
+            text-decoration: none;
+            transition: color 0.2s;
+            padding: 4px 0;
+            position: relative;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: 0; left: 0;
+            width: 0; height: 1px;
+            background: var(--gold);
+            transition: width 0.25s;
+        }
+
+        .nav-links a:hover { color: var(--snow); }
+        .nav-links a:hover::after { width: 100%; }
+        .nav-links a.active { color: var(--gold); }
+        .nav-links a.active::after { width: 100%; }
+    </style>
+</head>
+<body class="bg-[#2C3544] text-[#2C3544] font-sans">
+    <a href="#sidebar-toggle" id="sidebar-toggle"></a>
+
+    
+    <aside id="mobile-sidebar" class="fixed top-0 left-0 h-screen w-64 bg-[#080808] z-50 flex flex-col transform -translate-x-full md:hidden border-r border-[#f4a236]/10">
+        <div class="p-4 border-b border-[#f4a236]/20 flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <img src="../Public/Logo-main.png" alt="TN" class="h-10 w-10 rounded-full border border-[#f4a236]">
+                <div>
+                    <div class="text-lg font-bold text-[#f4a236]">TechNova</div>
+                    <div class="text-[9px] text-[#8A95A5] uppercase tracking-widest">Learning Center</div>
+                </div>
+            </div>
+            <a href="#" class="text-[#8A95A5] text-2xl font-light">&times;</a>
+        </div>
+        <nav class="flex-1 pt-2 overflow-y-auto">
+            <a href="index.html" class="block px-4 py-3 text-[#8A95A5] border-r-4 border-transparent hover:border-[#f4a236] hover:text-gray-200 transition-all">
+                <i class="bi bi-person mr-2"></i>Profile
+            </a>
+            <a href="schedule.html" class="block px-4 py-3 text-[#8A95A5] border-r-4 border-transparent hover:border-[#f4a236] hover:text-gray-200 transition-all">
+                <i class="bi bi-calendar-check mr-2"></i>Schedule
+            </a>
+            <a href="attendance.html" class="block px-4 py-3 text-[#8A95A5] border-r-4 border-transparent hover:border-[#f4a236] hover:text-gray-200 transition-all">
+                <i class="bi bi-clipboard-check mr-2"></i>Attendance
+            </a>
+            <a href="grades.html" class="block px-4 py-3 text-[#FFFFFF] font-bold border-r-4 border-[#f4a236]">
+                <i class="bi bi-file-earmark-bar-graph mr-2"></i>Grades
+            </a>
+        </nav>
+        <div class="p-4 border-t border-[#f4a236]/20">
+            <a href="../../Public/index.html" class="block w-full bg-[#f4a236] text-black rounded px-4 py-2 text-center font-medium text-xs tracking-widest uppercase hover:bg-[#e09222] transition-all flex items-center justify-center gap-2">
+                Logout <i class="bi bi-box-arrow-right"></i>
+            </a>
+        </div>
+    </aside>
+
+    
+    <div id="sidebar-overlay" class="fixed inset-0 bg-black/60 z-40 md:hidden opacity-0 pointer-events-none transition-opacity"></div>
+
+    
+    <div class="md:hidden fixed top-0 left-0 right-0 h-16 bg-[#080808] border-b border-[#f4a236]/20 flex items-center justify-between px-4 z-30">
+        <a href="#sidebar-toggle" class="flex items-center justify-center w-10 h-10 rounded-full bg-white/10 border border-white/20 text-white hover:bg-[#f4a236] hover:text-black transition-all">
+            <i class="bi bi-list text-lg"></i>
+        </a>
+        <div class="flex items-center gap-2">
+            <img src="../Public/Logo-main.png" alt="TN" class="h-8 w-8 rounded-full border border-[#f4a236]">
+            <div>
+                <div class="text-xs font-bold text-[#f4a236]">TechNova</div>
+                <div class="text-[7px] text-[#8A95A5] uppercase tracking-widest">Learning</div>
+            </div>
+        </div>
+        <div style="width:40px;"></div>
+    </div>
+
+    <nav class="hidden md:block">
+        <div class="nav-inner">
+            
+            <div style="display:flex; align-items:center; gap:14px;">
+                <img src="../Public/Logo-main.png" alt="TSLC" style="width:36px; height:36px; border-radius:50%; object-fit:cover; border:1px solid var(--gold); flex-shrink:0;">
+                <div style="display:flex; flex-direction:column;">
+                    <span style="font-family:'DM Sans',sans-serif; font-size:20px; font-weight:600; color:var(--gold);">TechNova</span>
+                    <span style="font-size:9px; letter-spacing:0.2em; text-transform:uppercase; color:var(--mist); display:block; margin-top:-3px; line-height:1;">Learning Center</span>
+                </div>
+            </div>
+
+            
+            <div class="nav-links" style="display:flex; align-items:center; gap:40px;">
+                <a href="index.html">Profile</a>
+                <a href="schedule.html">Schedule</a>
+                <a href="attendance.html">Attendance</a>
+                <a href="grades.html" class="active">Grades</a>
+            </div>
+
+            
+            <div style="display:flex; align-items:center;">
+                <a href="../../Public/index.html" style="display:inline-flex; align-items:center; gap:8px; background:var(--gold); color:white; padding:8px 16px; border-radius:4px; font-size:11px; font-weight:600; letter-spacing:0.1em; text-transform:uppercase; text-decoration:none; transition:background 0.2s; border:1px solid var(--gold);">Logout <i class="bi bi-box-arrow-right"></i></a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="mt-16 md:mt-0">
+        <div class="max-w-7xl mx-auto p-6 mt-4 pb-12">
+        <div class="bg-slate-900 p-6 rounded-t-xl border-x border-t border-slate-700 shadow-lg">
+            <h1 class="text-3xl font-bold tracking-tight text-[#F6AD55]">Academic Performance</h1>
+            <p class="text-slate-400 mt-1">First Semester | A.Y. 2025-2026</p>
+        </div>
+
+        <div class="bg-slate-900 border border-slate-700 shadow-lg overflow-hidden rounded-b-xl">
+            <div class="overflow-x-auto">
+                <table class="w-full text-left border-collapse table-fixed min-w-[800px]">
+                    <thead>
+                        <tr class="bg-gray-950 text-slate-400 border-b border-slate-700 text-xs uppercase tracking-widest font-semibold">
+                            <th class="p-4 border-r border-slate-700 w-1/4">Assessment Name</th>
+                            <th class="p-4 w-1/4">Subject</th>
+                            <th class="p-4 text-center">Date</th>
+                            <th class="p-4 text-center">Score</th>
+                            <th class="p-4 text-center">Status</th>
+                        </tr>
+                    </thead>
+                    <tbody class="text-slate-300 divide-y divide-slate-700/50 text-[12px]">
+                        
+                        <tr class="hover:bg-slate-800/40 transition-colors">
+                            <td class="p-4 bg-gray-950/30 font-bold border-r border-slate-700 text-orange-400">Mock Examination 1</td>
+                            <td class="p-4">Business Analytics</td>
+                            <td class="p-4 text-center text-slate-500">Oct 12, 2025</td>
+                            <td class="p-4 text-center">
+                                <span class="text-white font-bold">88</span> <span class="text-slate-600">/ 100</span>
+                            </td>
+                            <td class="p-4 text-center">
+                                <span class="px-2 py-1 bg-emerald-900/30 border border-emerald-500/40 text-emerald-400 font-bold rounded-sm text-[10px] uppercase">Passed</span>
+                            </td>
+                        </tr>
+
+                        <tr class="hover:bg-slate-800/40 transition-colors">
+                            <td class="p-4 bg-gray-950/30 font-bold border-r border-slate-700 text-orange-400">Quiz 2: IS Models</td>
+                            <td class="p-4">IS Strategy</td>
+                            <td class="p-4 text-center text-slate-500">Oct 15, 2025</td>
+                            <td class="p-4 text-center">
+                                <span class="text-white font-bold">45</span> <span class="text-slate-600">/ 50</span>
+                            </td>
+                            <td class="p-4 text-center">
+                                <span class="px-2 py-1 bg-emerald-900/30 border border-emerald-500/40 text-emerald-400 font-bold rounded-sm text-[10px] uppercase">Passed</span>
+                            </td>
+                        </tr>
+
+                        <tr class="hover:bg-slate-800/40 transition-colors">
+                            <td class="p-4 bg-gray-950/30 font-bold border-r border-slate-700 text-orange-400">Midterm Project</td>
+                            <td class="p-4">Front End Development</td>
+                            <td class="p-4 text-center text-slate-500">Oct 20, 2025</td>
+                            <td class="p-4 text-center">
+                                <span class="text-white font-bold">92</span> <span class="text-slate-600">/ 100</span>
+                            </td>
+                            <td class="p-4 text-center">
+                                <span class="px-2 py-1 bg-emerald-900/30 border border-emerald-500/40 text-emerald-400 font-bold rounded-sm text-[10px] uppercase">Passed</span>
+                            </td>
+                        </tr>
+
+                        <tr class="hover:bg-slate-800/40 transition-colors">
+                            <td class="p-4 bg-gray-950/30 font-bold border-r border-slate-700 text-orange-400">Case Study #1</td>
+                            <td class="p-4">Project Management</td>
+                            <td class="p-4 text-center text-slate-500">Oct 24, 2025</td>
+                            <td class="p-4 text-center">
+                                <span class="text-white font-bold">75</span> <span class="text-slate-600">/ 100</span>
+                            </td>
+                            <td class="p-4 text-center">
+                                <span class="px-2 py-1 bg-amber-900/30 border border-amber-500/40 text-amber-400 font-bold rounded-sm text-[10px] uppercase">Reviewing</span>
+                            </td>
+                        </tr>
+
+                        <tr class="hover:bg-slate-800/40 transition-colors">
+                            <td class="p-4 bg-gray-950/30 font-bold border-r border-slate-700 text-orange-400">Theology Reflection</td>
+                            <td class="p-4">Theology</td>
+                            <td class="p-4 text-center text-slate-500">Oct 28, 2025</td>
+                            <td class="p-4 text-center italic text-slate-600">Pending</td>
+                            <td class="p-4 text-center">
+                                <span class="px-2 py-1 bg-slate-800 border border-slate-600 text-slate-400 font-bold rounded-sm text-[10px] uppercase">Ungraded</span>
+                            </td>
+                        </tr>
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="mt-6 grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div class="bg-slate-900 p-4 border border-slate-700 rounded-xl shadow-lg">
+                <p class="text-[10px] uppercase tracking-widest text-slate-500 font-bold">Average Grade</p>
+                <h2 class="text-2xl font-bold text-[#F6AD55]">87.5%</h2>
+            </div>
+            <div class="bg-slate-900 p-4 border border-slate-700 rounded-xl shadow-lg">
+                <p class="text-[10px] uppercase tracking-widest text-slate-500 font-bold">Rank in Section</p>
+                <h2 class="text-2xl font-bold text-white">4 <span class="text-sm text-slate-600">of 45</span></h2>
+            </div>
+            <div class="bg-slate-900 p-4 border border-slate-700 rounded-xl shadow-lg">
+                <p class="text-[10px] uppercase tracking-widest text-slate-500 font-bold">Completed Tasks</p>
+                <h2 class="text-2xl font-bold text-emerald-400">12 / 15</h2>
+            </div>
+        </div>
+        </div>
+    </div>
+</body>
+</html>

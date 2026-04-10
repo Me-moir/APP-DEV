@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Attendance Dashboard - TechNova Review</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+    <style>
+        :root {
+            --gold: #f4a236;
+            --ink: #080808;
+            --slate: #2C3544;
+            --mist: #8A95A5;
+            --snow: #F1F5F9;
+        }
+
+        body { font-family: 'Inter', sans-serif; }
+
+        #sidebar-toggle { display: none; }
+        #sidebar-toggle:target ~ #mobile-sidebar { transform: translateX(0) !important; }
+        #sidebar-toggle:target ~ #sidebar-overlay { opacity: 1 !important; pointer-events: auto !important; }
+        body:has(#sidebar-toggle:target) { overflow: hidden; }
+        #mobile-sidebar { transition: transform 0.3s ease; }
+        #sidebar-overlay { transition: opacity 0.3s ease; }
+
+        nav {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: rgba(8,8,8,0.92);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(244,162,54,0.12);
+        }
+
+        .nav-inner {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 32px;
+            height: 72px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .nav-links a {
+            font-size: 12px;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            color: var(--mist);
+            text-decoration: none;
+            transition: color 0.2s;
+            padding: 4px 0;
+            position: relative;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: 0; left: 0;
+            width: 0; height: 1px;
+            background: var(--gold);
+            transition: width 0.25s;
+        }
+
+        .nav-links a:hover { color: var(--snow); }
+        .nav-links a:hover::after { width: 100%; }
+        .nav-links a.active { color: var(--gold); }
+        .nav-links a.active::after { width: 100%; }
+
+        .glass-panel {
+            background: rgba(15, 23, 42, 0.6);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+    </style>
+</head>
+<body class="bg-[#2C3544] text-slate-200 min-h-screen">
+    <a href="#sidebar-toggle" id="sidebar-toggle"></a>
+
+    
+    <aside id="mobile-sidebar" class="fixed top-0 left-0 h-screen w-64 bg-[#080808] z-50 flex flex-col transform -translate-x-full md:hidden border-r border-[#f4a236]/10">
+        <div class="p-4 border-b border-[#f4a236]/20 flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <img src="../Public/Logo-main.png" alt="TN" class="h-10 w-10 rounded-full border border-[#f4a236]">
+                <div>
+                    <div class="text-lg font-bold text-[#f4a236]">TechNova</div>
+                    <div class="text-[9px] text-[#8A95A5] uppercase tracking-widest">Learning Center</div>
+                </div>
+            </div>
+            <a href="#" class="text-[#8A95A5] text-2xl font-light">&times;</a>
+        </div>
+        <nav class="flex-1 pt-2 overflow-y-auto">
+            <a href="index.html" class="block px-4 py-3 text-[#8A95A5] border-r-4 border-transparent hover:border-[#f4a236] hover:text-gray-200 transition-all">
+                <i class="bi bi-person mr-2"></i>Profile
+            </a>
+            <a href="schedule.html" class="block px-4 py-3 text-[#8A95A5] border-r-4 border-transparent hover:border-[#f4a236] hover:text-gray-200 transition-all">
+                <i class="bi bi-calendar-check mr-2"></i>Schedule
+            </a>
+            <a href="attendance.html" class="block px-4 py-3 text-[#FFFFFF] font-bold border-r-4 border-[#f4a236]">
+                <i class="bi bi-clipboard-check mr-2"></i>Attendance
+            </a>
+            <a href="grades.html" class="block px-4 py-3 text-[#8A95A5] border-r-4 border-transparent hover:border-[#f4a236] hover:text-gray-200 transition-all">
+                <i class="bi bi-file-earmark-bar-graph mr-2"></i>Grades
+            </a>
+        </nav>
+        <div class="p-4 border-t border-[#f4a236]/20">
+            <a href="../../Public/index.html" class="block w-full bg-[#f4a236] text-black rounded px-4 py-2 text-center font-medium text-xs tracking-widest uppercase hover:bg-[#e09222] transition-all flex items-center justify-center gap-2">
+                Logout <i class="bi bi-box-arrow-right"></i>
+            </a>
+        </div>
+    </aside>
+
+    
+    <div id="sidebar-overlay" class="fixed inset-0 bg-black/60 z-40 md:hidden opacity-0 pointer-events-none transition-opacity"></div>
+
+    
+    <div class="md:hidden fixed top-0 left-0 right-0 h-16 bg-[#080808] border-b border-[#f4a236]/20 flex items-center justify-between px-4 z-30">
+        <a href="#sidebar-toggle" class="flex items-center justify-center w-10 h-10 rounded-full bg-white/10 border border-white/20 text-white hover:bg-[#f4a236] hover:text-black transition-all">
+            <i class="bi bi-list text-lg"></i>
+        </a>
+        <div class="flex items-center gap-2">
+            <img src="../Public/Logo-main.png" alt="TN" class="h-8 w-8 rounded-full border border-[#f4a236]">
+            <div>
+                <div class="text-xs font-bold text-[#f4a236]">TechNova</div>
+                <div class="text-[7px] text-[#8A95A5] uppercase tracking-widest">Learning</div>
+            </div>
+        </div>
+        <div style="width:40px;"></div>
+    </div>
+
+    <nav class="hidden md:block">
+        <div class="nav-inner">
+            
+            <div style="display:flex; align-items:center; gap:14px;">
+                <img src="../Public/Logo-main.png" alt="TSLC" style="width:36px; height:36px; border-radius:50%; object-fit:cover; border:1px solid var(--gold); flex-shrink:0;">
+                <div style="display:flex; flex-direction:column;">
+                    <span style="font-family:'DM Sans',sans-serif; font-size:20px; font-weight:600; color:var(--gold);">TechNova</span>
+                    <span style="font-size:9px; letter-spacing:0.2em; text-transform:uppercase; color:var(--mist); display:block; margin-top:-3px; line-height:1;">Learning Center</span>
+                </div>
+            </div>
+
+            
+            <div class="nav-links" style="display:flex; align-items:center; gap:40px;">
+                <a href="index.html">Profile</a>
+                <a href="schedule.html">Schedule</a>
+                <a href="attendance.html" class="active">Attendance</a>
+                <a href="grades.html">Grades</a>
+            </div>
+
+            
+            <div style="display:flex; align-items:center;">
+                <a href="../../Public/index.html" style="display:inline-flex; align-items:center; gap:8px; background:var(--gold); color:white; padding:8px 16px; border-radius:4px; font-size:11px; font-weight:600; letter-spacing:0.1em; text-transform:uppercase; text-decoration:none; transition:background 0.2s; border:1px solid var(--gold);">Logout <i class="bi bi-box-arrow-right"></i></a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="mt-16 md:mt-0">
+        <div class="max-w-7xl mx-auto p-4 md:p-10">
+        
+        <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-10 gap-4">
+            <div>
+                <h2 class="text-xs uppercase tracking-[0.3em] text-[#F6AD55] font-black mb-1">CSE Review Batch</h2>
+                <h1 class="text-4xl font-extrabold tracking-tight text-white">Attendance Tracker</h1>
+            </div>
+            
+            <div class="flex bg-black/40 p-1 rounded-xl border border-white/10">
+                <button class="px-6 py-2 text-xs font-bold uppercase rounded-lg bg-[#F6AD55] text-black shadow-lg">Monthly</button>
+                <button class="px-6 py-2 text-xs font-bold uppercase rounded-lg text-slate-400 hover:text-white transition">Weekly</button>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-4 gap-8">
+            
+            <div class="lg:col-span-1 space-y-6">
+                <div class="glass-panel p-6 rounded-3xl shadow-2xl">
+                    <p class="text-slate-400 text-[10px] font-black uppercase tracking-widest mb-6 border-b border-white/5 pb-2">Review Session Stats</p>
+                    <div class="space-y-8">
+                        <div>
+                            <span class="text-5xl font-light text-emerald-400 tracking-tighter">09<span class="text-sm text-slate-500 ml-1">days</span></span>
+                            <p class="text-[10px] text-slate-400 uppercase font-bold mt-1">Attended Review</p>
+                        </div>
+
+                        <div>
+                            <span class="text-5xl font-light text-rose-400 tracking-tighter">01<span class="text-sm text-slate-500 ml-1">days</span></span>
+                            <p class="text-[10px] text-slate-400 uppercase font-bold mt-1">Missed Lecture</p>
+                        </div>
+                        <div class="pt-4 border-t border-white/5">
+                            <div class="flex justify-between items-end">
+                                <span class="text-xs font-bold text-slate-500 uppercase">Compliance</span>
+                                <span class="text-xl font-bold text-[#F6AD55]">90%</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-gradient-to-br from-[#F6AD55] to-[#e0912a] p-6 rounded-3xl text-black shadow-xl shadow-orange-950/20">
+                    <p class="text-xs font-black uppercase tracking-widest opacity-60">Next Module</p>
+                    <p class="text-lg font-bold mt-2 leading-tight">Analytical Ability & Logic</p>
+                    <p class="text-xs font-medium italic mt-1 opacity-90">Wednesday • 09:30 AM</p>
+                </div>
+            </div>
+
+            <div class="lg:col-span-3">
+                <div class="glass-panel rounded-3xl overflow-hidden shadow-2xl">
+                    <div class="bg-white/5 p-6 flex justify-between items-center border-b border-white/10">
+                        <div class="flex items-center space-x-4">
+                            <span class="text-xl font-bold tracking-tight text-white">April 2026</span>
+                            <div class="flex space-x-1">
+                                <button class="p-1 hover:bg-white/10 rounded">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
+                                </button>
+                                <button class="p-1 hover:bg-white/10 rounded">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="flex space-x-4">
+                            <div class="flex items-center space-x-2">
+                                <div class="w-3 h-3 rounded-full bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.5)]"></div>
+                                <span class="text-[10px] font-black text-slate-400 uppercase tracking-tighter">Present</span>
+                            </div>
+                            <div class="flex items-center space-x-2">
+                                <div class="w-3 h-3 rounded-full bg-rose-500 shadow-[0_0_8px_rgba(244,63,94,0.5)]"></div>
+                                <span class="text-[10px] font-black text-slate-400 uppercase tracking-tighter">Absent</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="p-6 grid grid-cols-7 gap-4">
+                        <div class="text-center text-[11px] font-black text-slate-500 uppercase tracking-widest pb-4">Sun</div>
+                        <div class="text-center text-[11px] font-black text-[#F6AD55] uppercase tracking-widest pb-4">Mon</div>
+                        <div class="text-center text-[11px] font-black text-[#F6AD55] uppercase tracking-widest pb-4">Tue</div>
+                        <div class="text-center text-[11px] font-black text-[#F6AD55] uppercase tracking-widest pb-4">Wed</div>
+                        <div class="text-center text-[11px] font-black text-slate-500 uppercase tracking-widest pb-4">Thu</div>
+                        <div class="text-center text-[11px] font-black text-slate-500 uppercase tracking-widest pb-4">Fri</div>
+                        <div class="text-center text-[11px] font-black text-slate-500 uppercase tracking-widest pb-4">Sat</div>
+
+                        <div class="aspect-square"></div>
+                        <div class="aspect-square"></div>
+                        <div class="aspect-square"></div>
+                        <div class="aspect-square border border-emerald-500/30 bg-emerald-500/10 rounded-2xl flex items-center justify-center group hover:bg-emerald-500/20 transition-all cursor-default">
+                            <span class="text-base font-bold text-emerald-400">01</span>
+                        </div>
+                        <div class="aspect-square border border-white/5 bg-white/5 rounded-2xl flex items-center justify-center">
+                            <span class="text-base font-bold text-slate-600">02</span>
+                        </div>
+                        <div class="aspect-square border border-white/5 bg-white/5 rounded-2xl flex items-center justify-center">
+                            <span class="text-base font-bold text-slate-600">03</span>
+                        </div>
+                        <div class="aspect-square border border-white/5 bg-white/5 rounded-2xl flex items-center justify-center">
+                            <span class="text-base font-bold text-slate-600">04</span>
+                        </div>
+
+                        <div class="aspect-square border border-white/5 bg-white/5 rounded-2xl flex items-center justify-center">
+                            <span class="text-base font-bold text-slate-600">05</span>
+                        </div>
+                        <div class="aspect-square border border-emerald-500/30 bg-emerald-500/10 rounded-2xl flex items-center justify-center">
+                            <span class="text-base font-bold text-emerald-400">06</span>
+                        </div>
+                        <div class="aspect-square border border-emerald-500/30 bg-emerald-500/10 rounded-2xl flex items-center justify-center">
+                            <span class="text-base font-bold text-emerald-400">07</span>
+                        </div>
+                        <div class="aspect-square border border-rose-500/30 bg-rose-500/10 rounded-2xl flex items-center justify-center">
+                            <span class="text-base font-bold text-rose-400">08</span>
+                        </div>
+                        <div class="aspect-square border border-white/5 bg-white/5 rounded-2xl flex items-center justify-center">
+                            <span class="text-base font-bold text-slate-600">09</span>
+                        </div>
+                        <div class="aspect-square border border-white/5 bg-white/5 rounded-2xl flex items-center justify-center">
+                            <span class="text-base font-bold text-slate-600">10</span>
+                        </div>
+                        <div class="aspect-square border border-white/5 bg-white/5 rounded-2xl flex items-center justify-center">
+                            <span class="text-base font-bold text-slate-600">11</span>
+                        </div>
+
+                        <div class="aspect-square border border-white/5 bg-white/5 rounded-2xl flex items-center justify-center">
+                            <span class="text-base font-bold text-slate-600">12</span>
+                        </div>
+                        <div class="aspect-square border border-emerald-500/30 bg-emerald-500/10 rounded-2xl flex items-center justify-center">
+                            <span class="text-base font-bold text-emerald-400">13</span>
+                        </div>
+                        <div class="aspect-square border border-emerald-500/30 bg-emerald-500/10 rounded-2xl flex items-center justify-center">
+                            <span class="text-base font-bold text-emerald-400">14</span>
+                        </div>
+                        <div class="aspect-square border border-emerald-500/30 bg-emerald-500/10 rounded-2xl flex items-center justify-center">
+                            <span class="text-base font-bold text-emerald-400">15</span>
+                        </div>
+                        <div class="aspect-square border border-white/5 bg-white/5 rounded-2xl flex items-center justify-center">
+                            <span class="text-base font-bold text-slate-600">16</span>
+                        </div>
+                        <div class="aspect-square border border-white/5 bg-white/5 rounded-2xl flex items-center justify-center">
+                            <span class="text-base font-bold text-slate-600">17</span>
+                        </div>
+                        <div class="aspect-square border border-white/5 bg-white/5 rounded-2xl flex items-center justify-center">
+                            <span class="text-base font-bold text-slate-600">18</span>
+                        </div>
+
+                        <div class="aspect-square border border-white/5 bg-white/5 rounded-2xl flex items-center justify-center">
+                            <span class="text-base font-bold text-slate-600">19</span>
+                        </div>
+                        <div class="aspect-square border border-emerald-500/30 bg-emerald-500/10 rounded-2xl flex items-center justify-center">
+                            <span class="text-base font-bold text-emerald-400">20</span>
+                        </div>
+                        <div class="aspect-square border border-emerald-500/30 bg-emerald-500/10 rounded-2xl flex items-center justify-center">
+                            <span class="text-base font-bold text-emerald-400">21</span>
+                        </div>
+                        <div class="aspect-square border border-white/10 bg-[#F6AD55]/10 border-[#F6AD55]/40 rounded-2xl flex items-center justify-center group hover:border-[#F6AD55] transition-all">
+                            <span class="text-base font-bold text-[#F6AD55]">22</span>
+                        </div>
+                        <div class="aspect-square border border-white/10 bg-white/10 rounded-2xl flex items-center justify-center group hover:border-white/20 transition-all"><span class="text-base font-bold text-slate-400">23</span></div>
+                        <div class="aspect-square border border-white/10 bg-white/10 rounded-2xl flex items-center justify-center group hover:border-white/20 transition-all"><span class="text-base font-bold text-slate-400">24</span></div>
+                        <div class="aspect-square border border-white/10 bg-white/10 rounded-2xl flex items-center justify-center group hover:border-white/20 transition-all"><span class="text-base font-bold text-slate-400">25</span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</html>

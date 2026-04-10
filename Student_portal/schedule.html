@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weekly Schedule - TechNova CSE Review</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+    <style>
+        :root {
+            --gold: #f4a236;
+            --ink: #080808;
+            --slate: #2C3544;
+            --mist: #8A95A5;
+            --snow: #F1F5F9;
+        }
+
+        #sidebar-toggle { display: none; }
+        #sidebar-toggle:target ~ #mobile-sidebar { transform: translateX(0) !important; }
+        #sidebar-toggle:target ~ #sidebar-overlay { opacity: 1 !important; pointer-events: auto !important; }
+        body:has(#sidebar-toggle:target) { overflow: hidden; }
+        #mobile-sidebar { transition: transform 0.3s ease; }
+        #sidebar-overlay { transition: opacity 0.3s ease; }
+
+        nav {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: rgba(8,8,8,0.92);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(244,162,54,0.12);
+        }
+
+        .nav-inner {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 32px;
+            height: 72px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .nav-links a {
+            font-size: 12px;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            color: var(--mist);
+            text-decoration: none;
+            transition: color 0.2s;
+            padding: 4px 0;
+            position: relative;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: 0; left: 0;
+            width: 0; height: 1px;
+            background: var(--gold);
+            transition: width 0.25s;
+        }
+
+        .nav-links a:hover { color: var(--snow); }
+        .nav-links a:hover::after { width: 100%; }
+        .nav-links a.active { color: var(--gold); }
+        .nav-links a.active::after { width: 100%; }
+    </style>
+</head>
+<body class="bg-[#2C3544] text-[#2C3544] font-sans">
+    <a href="#sidebar-toggle" id="sidebar-toggle"></a>
+
+    
+    <aside id="mobile-sidebar" class="fixed top-0 left-0 h-screen w-64 bg-[#080808] z-50 flex flex-col transform -translate-x-full md:hidden border-r border-[#f4a236]/10">
+        <div class="p-4 border-b border-[#f4a236]/20 flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <img src="../Public/Logo-main.png" alt="TN" class="h-10 w-10 rounded-full border border-[#f4a236]">
+                <div>
+                    <div class="text-lg font-bold text-[#f4a236]">TechNova</div>
+                    <div class="text-[9px] text-[#8A95A5] uppercase tracking-widest">Learning Center</div>
+                </div>
+            </div>
+            <a href="#" class="text-[#8A95A5] text-2xl font-light">&times;</a>
+        </div>
+        <nav class="flex-1 pt-2 overflow-y-auto">
+            <a href="index.html" class="block px-4 py-3 text-[#8A95A5] border-r-4 border-transparent hover:border-[#f4a236] hover:text-gray-200 transition-all">
+                <i class="bi bi-person mr-2"></i>Profile
+            </a>
+            <a href="schedule.html" class="block px-4 py-3 text-[#FFFFFF] font-bold border-r-4 border-[#f4a236]">
+                <i class="bi bi-calendar-check mr-2"></i>Schedule
+            </a>
+            <a href="attendance.html" class="block px-4 py-3 text-[#8A95A5] border-r-4 border-transparent hover:border-[#f4a236] hover:text-gray-200 transition-all">
+                <i class="bi bi-clipboard-check mr-2"></i>Attendance
+            </a>
+            <a href="grades.html" class="block px-4 py-3 text-[#8A95A5] border-r-4 border-transparent hover:border-[#f4a236] hover:text-gray-200 transition-all">
+                <i class="bi bi-file-earmark-bar-graph mr-2"></i>Grades
+            </a>
+        </nav>
+        <div class="p-4 border-t border-[#f4a236]/20">
+            <a href="../../Public/index.html" class="block w-full bg-[#f4a236] text-black rounded px-4 py-2 text-center font-medium text-xs tracking-widest uppercase hover:bg-[#e09222] transition-all flex items-center justify-center gap-2">
+                Logout <i class="bi bi-box-arrow-right"></i>
+            </a>
+        </div>
+    </aside>
+
+    
+    <div id="sidebar-overlay" class="fixed inset-0 bg-black/60 z-40 md:hidden opacity-0 pointer-events-none transition-opacity"></div>
+
+    
+    <div class="md:hidden fixed top-0 left-0 right-0 h-16 bg-[#080808] border-b border-[#f4a236]/20 flex items-center justify-between px-4 z-30">
+        <a href="#sidebar-toggle" class="flex items-center justify-center w-10 h-10 rounded-full bg-white/10 border border-white/20 text-white hover:bg-[#f4a236] hover:text-black transition-all">
+            <i class="bi bi-list text-lg"></i>
+        </a>
+        <div class="flex items-center gap-2">
+            <img src="../Public/Logo-main.png" alt="TN" class="h-8 w-8 rounded-full border border-[#f4a236]">
+            <div>
+                <div class="text-xs font-bold text-[#f4a236]">TechNova</div>
+                <div class="text-[7px] text-[#8A95A5] uppercase tracking-widest">Learning</div>
+            </div>
+        </div>
+        <div style="width:40px;"></div>
+    </div>
+
+    <nav class="hidden md:block">
+        <div class="nav-inner">
+            
+            <div style="display:flex; align-items:center; gap:14px;">
+                <img src="../Public/Logo-main.png" alt="TSLC" style="width:36px; height:36px; border-radius:50%; object-fit:cover; border:1px solid var(--gold); flex-shrink:0;">
+                <div style="display:flex; flex-direction:column;">
+                    <span style="font-family:'DM Sans',sans-serif; font-size:20px; font-weight:600; color:var(--gold);">TechNova</span>
+                    <span style="font-size:9px; letter-spacing:0.2em; text-transform:uppercase; color:var(--mist); display:block; margin-top:-3px; line-height:1;">Learning Center</span>
+                </div>
+            </div>
+
+            
+            <div class="nav-links" style="display:flex; align-items:center; gap:40px;">
+                <a href="index.html">Profile</a>
+                <a href="schedule.html" class="active">Schedule</a>
+                <a href="attendance.html">Attendance</a>
+                <a href="grades.html">Grades</a>
+            </div>
+
+            
+            <div style="display:flex; align-items:center;">
+                <a href="../../Public/index.html" style="display:inline-flex; align-items:center; gap:8px; background:var(--gold); color:white; padding:8px 16px; border-radius:4px; font-size:11px; font-weight:600; letter-spacing:0.1em; text-transform:uppercase; text-decoration:none; transition:background 0.2s; border:1px solid var(--gold);">Logout <i class="bi bi-box-arrow-right"></i></a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="mt-16 md:mt-0">
+        <div class="max-w-7xl mx-auto p-6 mt-4 pb-12">
+        <div class="bg-slate-900 p-6 rounded-t-xl border-x border-t border-slate-700 shadow-lg">
+            <h1 class="text-3xl font-bold tracking-tight text-[#F6AD55]">Civil Service Review Schedule</h1>
+            <p class="text-slate-400 mt-1">Prof. TechNova</p>
+        </div>
+
+        <div class="bg-slate-900 border border-slate-700 shadow-lg overflow-hidden rounded-b-xl">
+            <div class="overflow-x-auto">
+                <table class="w-full text-center border-collapse table-fixed min-w-[800px]">
+                    <thead>
+                        <tr class="bg-gray-950 text-slate-400 border-b border-slate-700 text-xs uppercase tracking-widest font-semibold">
+                            <th class="p-4 border-r border-slate-700 w-32">Time</th>
+                            <th class="p-4">Monday</th>
+                            <th class="p-4">Tuesday</th>
+                            <th class="p-4">Wednesday</th>
+                            <th class="p-4">Thursday</th>
+                            <th class="p-4">Friday</th>
+                            <th class="p-4">Saturday</th>
+                        </tr>
+                    </thead>
+                    <tbody class="text-slate-300 divide-y divide-slate-700/50 text-[11px]">
+                        <tr class="hover:bg-slate-800/40 transition-colors">
+                            <td class="p-3 bg-gray-950/30 font-bold border-r border-slate-700 text-orange-400">09:30 AM</td>
+                            <td class="p-2 bg-amber-900/30 border border-amber-500/40 text-amber-400 font-bold rounded-sm">Numerical Reasoning</td>
+                            <td class="p-2 bg-emerald-900/30 border border-emerald-500/40 text-emerald-400 font-bold rounded-sm">Verbal Ability</td>
+                            <td class="p-2 bg-sky-900/30 border border-sky-500/40 text-sky-400 font-bold rounded-sm">Analytical Ability</td>
+                            <td></td><td></td><td></td>
+                        </tr>
+                        <tr class="hover:bg-slate-800/40 transition-colors">
+                            <td class="p-3 bg-gray-950/30 font-bold border-r border-slate-700 text-orange-400">10:30 AM</td>
+                            <td class="p-2 bg-amber-900/30 border border-amber-500/40 text-amber-400 font-bold rounded-sm">Numerical Reasoning</td>
+                            <td class="p-2 bg-emerald-900/30 border border-emerald-500/40 text-emerald-400 font-bold rounded-sm">Verbal Ability</td>
+                            <td class="p-2 bg-sky-900/30 border border-sky-500/40 text-sky-400 font-bold rounded-sm">Analytical Ability</td>
+                            <td></td><td></td><td></td>
+                        </tr>
+                        <tr class="hover:bg-slate-800/40 transition-colors">
+                            <td class="p-3 bg-gray-950/30 font-bold border-r border-slate-700 text-orange-400">11:30 AM</td>
+                            <td class="p-2 bg-amber-900/30 border border-amber-500/40 text-amber-400 font-bold rounded-sm">Math Drills</td>
+                            <td class="p-2 bg-emerald-900/30 border border-emerald-500/40 text-emerald-400 font-bold rounded-sm">Grammar & Syntax</td>
+                            <td class="p-2 bg-sky-900/30 border border-sky-500/40 text-sky-400 font-bold rounded-sm">Logic & Abstract</td>
+                            <td></td><td></td><td></td>
+                        </tr>
+
+                        <tr class="bg-slate-800/20">
+                            <td class="p-3 bg-gray-950/30 font-bold border-r border-slate-700 text-slate-600 uppercase italic">12:30 PM</td>
+                            <td colspan="3" class="p-2 text-slate-600 tracking-[0.5em] font-bold">LUNCH BREAK</td>
+                            <td></td><td></td><td></td>
+                        </tr>
+
+                        <tr class="hover:bg-slate-800/40 transition-colors">
+                            <td class="p-3 bg-gray-950/30 font-bold border-r border-slate-700 text-orange-400">01:00 PM</td>
+                            <td class="p-2 bg-rose-900/30 border border-rose-500/40 text-rose-400 font-bold rounded-sm">PH Constitution</td>
+                            <td class="p-2 bg-indigo-900/30 border border-indigo-500/40 text-indigo-400 font-bold rounded-sm">Code of Conduct</td>
+                            <td class="p-2 bg-fuchsia-900/30 border border-fuchsia-500/40 text-fuchsia-400 font-bold rounded-sm">Current Events</td>
+                            <td></td><td></td><td></td>
+                        </tr>
+                        <tr class="hover:bg-slate-800/40 transition-colors">
+                            <td class="p-3 bg-gray-950/30 font-bold border-r border-slate-700 text-orange-400">01:30 PM</td>
+                            <td class="p-2 bg-rose-900/30 border border-rose-500/40 text-rose-400 font-bold rounded-sm">General Info</td>
+                            <td class="p-2 bg-indigo-900/30 border border-indigo-500/40 text-indigo-400 font-bold rounded-sm">Ethics & Norms</td>
+                            <td class="p-2 bg-fuchsia-900/30 border border-fuchsia-500/40 text-fuchsia-400 font-bold rounded-sm">Mock Quiz</td>
+                            <td></td><td></td><td></td>
+                        </tr>
+                        <tr class="bg-gray-950/50">
+                            <td class="p-3 bg-gray-950/30 font-bold border-r border-slate-700 text-orange-400">02:00 PM</td>
+                            <td colspan="3" class="p-2 text-slate-500 italic text-[9px] uppercase tracking-widest">End of Session</td>
+                            <td></td><td></td><td></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        </div>
+    </div>
+</body>
+</html>
